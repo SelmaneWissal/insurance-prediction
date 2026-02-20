@@ -1,0 +1,9 @@
+# Python
+mon_env/
+__pycache__/
+*.pyc
+.env
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
