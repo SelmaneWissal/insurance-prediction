@@ -29,7 +29,22 @@ const App: React.FC = () => {
       setLoading(false);
     }
   };
-
+  const handleNumberChange = (
+  field: keyof PatientProfile, 
+  value: string, 
+  min: number, 
+  max: number
+) => {
+  let num = parseInt(value);
+  
+  // Si le champ est vide (pendant la saisie), on peut laisser 0 ou NaN temporairement
+  if (isNaN(num)) num = min; 
+  
+  // On contraint la valeur entre les bornes min et max
+  const validatedValue = Math.max(min, Math.min(max, num));
+  
+  setProfile({ ...profile, [field]: validatedValue });
+};
   return (
     <div className="max-w-7xl mx-auto p-8 lg:p-12">
       {/* Header */}
@@ -68,7 +83,7 @@ const App: React.FC = () => {
                 <input 
                   type="number" 
                   value={profile.age}
-                  onChange={(e) => setProfile({...profile, age: parseInt(e.target.value)})}
+                  onChange={(e) => handleNumberChange('age', e.target.value, 1, 100)}
                   className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-semibold text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 />
               </div>
@@ -110,7 +125,7 @@ const App: React.FC = () => {
                 <input 
                   type="number" 
                   value={profile.children}
-                  onChange={(e) => setProfile({...profile, children: parseInt(e.target.value)})}
+                  onChange={(e) => handleNumberChange('children', e.target.value, 0, 10)}
                   className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 font-semibold text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 />
               </div>
